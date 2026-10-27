@@ -201,7 +201,7 @@ export default function App() {
           onPress={() => setTab(t => (t === 1 ? 0 : 1))}
           style={box}
         >
-          <Text>Toggle T3</Text>
+          <Text>Toggle T3 (now {tab === 1 ? 'on' : 'off'})</Text>
         </Pressable>
       </Section>
 
@@ -367,6 +367,48 @@ export default function App() {
         >
           <Text>Rating N9: View (control)</Text>
         </View>
+      </Section>
+
+      <Section title="Q (iOS): actions on a plain parent, Actions of the child">
+        <View
+          accessibilityActions={archive}
+          onAccessibilityAction={() => setLast('Q1 parent archive')}
+          collapsable={false}
+        >
+          <View accessible style={box}>
+            <Text>Child Q1: parent kept</Text>
+          </View>
+        </View>
+        <View
+          accessibilityActions={archive}
+          onAccessibilityAction={() => setLast('Q2 parent archive')}
+        >
+          <View accessible style={box}>
+            <Text>Child Q2: parent flattened</Text>
+          </View>
+        </View>
+      </Section>
+
+      <Section title="G (iOS): Image vs View, Hint, Traits, Value">
+        <Image
+          accessible
+          accessibilityLabel="Photo G1: Image"
+          accessibilityHint="Hint G1"
+          accessibilityRole="button"
+          accessibilityState={{ checked: true }}
+          accessibilityValue={{ text: 'Value G1' }}
+          source={pixel}
+          style={{ width: 44, height: 44 }}
+        />
+        <View
+          accessible
+          accessibilityLabel="Photo G2: View (control)"
+          accessibilityHint="Hint G2"
+          accessibilityRole="button"
+          accessibilityState={{ checked: true }}
+          accessibilityValue={{ text: 'Value G2' }}
+          style={box}
+        />
       </Section>
     </ScrollView>
   );
