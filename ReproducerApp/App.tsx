@@ -43,6 +43,12 @@ export default function App() {
   const [last, setLast] = useState('none');
   const [checked, setChecked] = useState<boolean | 'mixed'>('mixed');
   const [tab, setTab] = useState(0);
+  const [level, setLevel] = useState({ D1: 5, D2: 5 });
+  const adjust = (key: 'D1' | 'D2', action: string) => {
+    setLast(`${key} action ${action}`);
+    const step = action === 'increment' ? 1 : action === 'decrement' ? -1 : 0;
+    setLevel(l => ({ ...l, [key]: Math.min(10, Math.max(0, l[key] + step)) }));
+  };
 
   return (
     <ScrollView contentContainerStyle={{ padding: 48, gap: 24 }}>
@@ -138,6 +144,29 @@ export default function App() {
           <Pressable accessibilityRole="tab" style={box}>
             <Text>Tab R5: in role="tablist"</Text>
           </Pressable>
+        </View>
+      </Section>
+
+      <Section title="C5 (Android): new value after adjusting. TalkBack, adjust D1 and D2">
+        <View
+          accessible
+          role="slider"
+          accessibilityValue={{ min: 0, max: 10, now: level.D1 }}
+          accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+          onAccessibilityAction={e => adjust('D1', e.nativeEvent.actionName)}
+          style={box}
+        >
+          <Text>Level D1: role="slider", now {level.D1}</Text>
+        </View>
+        <View
+          accessible
+          accessibilityRole="adjustable"
+          accessibilityValue={{ min: 0, max: 10, now: level.D2 }}
+          accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+          onAccessibilityAction={e => adjust('D2', e.nativeEvent.actionName)}
+          style={box}
+        >
+          <Text>Level D2: accessibilityRole="adjustable" (control), now {level.D2}</Text>
         </View>
       </Section>
 
