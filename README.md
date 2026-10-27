@@ -1,8 +1,22 @@
-# rn-aria-props-repro
+# rn-a11y-audit-repro
 
-![Build](https://github.com/faciledictu/rn-aria-props-repro/workflows/Pre%20Merge%20Checks/badge.svg)
+![Build](https://github.com/faciledictu/rn-a11y-audit-repro/workflows/Pre%20Merge%20Checks/badge.svg)
 
-This is your new React Native Reproducer project.
+Reproducer for accessibility bugs in React Native 0.88.0 (new architecture):
+view flattening, roles, state and value, actions. One screen,
+[`ReproducerApp/App.tsx`](ReproducerApp/App.tsx); each section pairs the
+broken case with a control, and its title says what to look at.
+
+- iOS: Accessibility Inspector (Label, Value, Traits, Actions, Hierarchy).
+  Its Perform buttons trigger the actions; the "Last event" line at the top
+  shows what the app received. The magic tap and escape cases need VoiceOver
+  on a device.
+- Android: `adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml`
+  (`content-desc`, `class`, `checkable`, `checked`), TalkBack for the actions.
+
+The flattening cases (F1 to F5) use a View with no style, `testID` or
+`nativeID`: any of these keeps the View in the native tree and hides the bug.
+The copy with `collapsable={false}` is the control.
 
 # Reproducer TODO list
 
